@@ -11,13 +11,25 @@ const Category = () => {
   const {categoriesMap} = useContext(CategoriesContext)
   const [products, setProducts] = useState(categoriesMap[category]);  
 
+  const calculateTitle = (category) => {
+    const notFound = "Can't find page you are looking for";
+    for (const categories in categoriesMap) {
+      if (category.toLowerCase() === categories) {
+        return categories;
+      }
+    }
+    return notFound;
+  }
+
+  const calculateTitleHandler = () => calculateTitle(category);
+
   useEffect(() => {
     setProducts(categoriesMap[category]);
   }, [category, categoriesMap])
 
   return (
     <>
-    <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
+    <CategoryTitle>{calculateTitleHandler()}</CategoryTitle>
     <CategoryContainer>
       {products && 
         products.map((product) => {
